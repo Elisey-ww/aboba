@@ -1,0 +1,32 @@
+my_list = ['яблоко', 'банан', 'апельсин', 'яблоко', 'груша', 'банан', 'киви', 'яблоко', 'виноград', 'банан']
+print("Исходный список:", my_list)
+
+print("Предпоследний элемент:", my_list[-2])
+
+print("Элемент под индексом 0:", my_list[0])
+print("Элемент под индексом 3:", my_list[3])
+print("Элемент под индексом 5:", my_list[5])
+
+my_list[2] = 'мандарин'
+print("После изменения элемента под индексом 2:", my_list)
+
+print("Элементы с 3 по 6 индекс:", my_list[3:7])
+
+my_list.append('ананас')
+print("После добавления элемента в конец:", my_list)
+
+
+mid_index = len(my_list) // 2
+my_list.insert(mid_index, 'клубника')
+print(f"После добавления элемента в середину (индекс {mid_index}):", my_list)
+
+count_apple = my_list.count('яблоко')
+count_banana = my_list.count('банан')
+print("Количество 'яблоко':", count_apple)
+print("Количество 'банан':", count_banana)
+
+copied_list = my_list.copy()
+copied_list[0] = 'измененный'
+print("Оригинальный список:", my_list)
+print("Скопированный с измененным первым элементом:", copied_list)
+print("Списки одинаковы?", my_list == copied_list)

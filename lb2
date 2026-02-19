@@ -1,0 +1,34 @@
+using System.ComponentModel;
+
+
+
+class drugs // Базовый класс drugs (лекарства)
+{
+    string name; 
+    int type;    
+
+    public drugs(string name) // Конструктор 
+    {
+        this.name = name; // Присваиваем полю name переданное значение
+        Console.WriteLine("drugs(string name"); // Вывод сообщения о вызове конструктора
+    }
+
+    public drugs(string name, int type) : this(name) // Конструктор с двумя параметрами
+    // : this(name) - вызывает первый конструктор drugs(string name) перед выполнением своего кода
+    {
+        this.type = type; // Присваиваем полю type переданное значение
+        Console.WriteLine("drugs(string name, int type)"); // Вывод сообщения
+    }
+
+    class Employee : drugs // ВЛОЖЕННЫЙ класс Employee, наследуется от drugs
+    {
+        string company; 
+
+        public Employee(string name, int type, string company) : base(name, type)        // - вызывает конструктор базового класса drugs(string name, int type)
+
+        {
+            this.company = company; // Присваиваем полю company переданное значение
+            Console.WriteLine("Employee(string name, int type, string company)"); // Вывод сообщения
+        }
+    }
+}

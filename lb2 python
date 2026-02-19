@@ -1,0 +1,67 @@
+# Базовый класс drugs (лекарства)
+class drugs:
+    def __init__(self, name, type=None):  # type=None для имитации двух конструкторов
+        self.name = name
+        self.type = type if type is not None else 0  # значение по умолчанию
+        
+        # Имитация цепочки вызова конструкторов как в C#
+        if type is None:
+            print("drugs(string name)")
+        else:
+            print("drugs(string name)")  # имитация вызова this(name)
+            print("drugs(string name, int type)")
+    
+    # Функция обработки данных
+    def ProcessDrugData(self):
+        print(f"Название: {self.name}")
+        print(f"Тип: {self.type}")
+        print(f"Тип (текстовое описание): {self.GetTypeDescription()}")
+        print(f"Статус: {'Активный' if self.type > 0 else 'Неактивный'}")
+    
+    # Вспомогательная функция для получения описания типа
+    def GetTypeDescription(self):
+        if self.type == 1:
+            return "мари иванна"
+        elif self.type == 2:
+            return "носок"
+        elif self.type == 3:
+            return "кокс (угль)"
+        else:
+            return "Другое"
+
+
+# ВЛОЖЕННЫЙ класс Employee, наследуется от drugs
+class Employee(drugs):
+    def __init__(self, name, type, company):
+        super().__init__(name, type)  # base(name, type) - вызывает конструктор базового класса
+        self.company = company
+        print("Employee(string name, int type, string company)")
+
+
+# Класс Program для тестирования
+class Program:
+    @staticmethod
+    def main():
+        # Создаем объекты и тестируем функцию обработки
+        drug1 = drugs("мари иванна", 1)
+        drug1.ProcessDrugData()
+        print()  # пустая строка для разделения
+        
+        drug2 = drugs("носок", 2)
+        drug2.ProcessDrugData()
+        print()
+        
+        drug3 = drugs("кокс (угль)", 0)  # Тип 0 - "Другое"
+        drug3.ProcessDrugData()
+        print()
+        
+        # Демонстрация работы с Employee (если нужно)
+        # emp = Employee("Специальное лекарство", 3, "PharmaCorp")
+        # emp.ProcessDrugData()
+        
+        input("Нажмите любую клавишу для завершения...")
+
+
+# Запуск программы
+if __name__ == "__main__":
+    Program.main()

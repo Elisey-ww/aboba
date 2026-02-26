@@ -1,0 +1,56 @@
+using System;
+using Excel = Microsoft.Office.Interop.Excel;
+
+namespace приложение_чтение_данных_из_excel_console
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Excel.Application excelApp = new Excel.Application();
+
+            if (excelApp == null)
+            {
+                Console.WriteLine("Excel is not installed");
+                return;
+            }
+
+            try
+            {
+                // Укажите путь к вашему файлу Excel
+                Excel.Workbook excelBook = excelApp.Workbooks.Open(@"C:\Users\23_ИП-291к\Desktop\cim.xlsx");
+
+                Excel.Worksheet excelSheet = (Excel.Worksheet)excelBook.Sheets[1];
+
+                // Использование псевдонима
+                Excel.Range excelRange = excelSheet.UsedRange;
+
+                int rows = excelRange.Rows.Count;
+                int cols = excelRange.Columns.Count;
+
+                for (int i = 1; i <= rows; i++)
+                {
+                    Console.Write("\r\n");
+
+                    for (int j = 1; j <= cols; j++)
+                    {
+                        if (excelRange.Cells[i, j] != null && excelRange.Cells[i, j].Value2 != null)
+                            Console.Write(excelRange.Cells[i, j].Value2.ToString() + "\t");
+                    }
+                }
+
+                excelBook.Close(false);
+                excelApp.Quit();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                Console.ReadLine();
+            }
+        }
+    }
+}

@@ -1,0 +1,84 @@
+//клиент
+using System;
+using System.IO;
+using System.IO.Pipes;
+
+namespace NamedPipeClient
+{
+    class Program
+    {
+        static void Main()
+        {
+            //клиентский канал с тем же именем, что и у сервера
+            using (var client = new NamedPipeClientStream("MyPipe"))
+            {
+                Console.WriteLine("Клиент запущен. Подключение к серверу...");
+
+                // Подключаемся к серверу
+                client.Connect();
+                Console.WriteLine("Подключено.");
+
+                //объекты для чтения и записи
+                using (var reader = new StreamReader(client))
+                using (var writer = new StreamWriter(client))
+                {
+                    writer.AutoFlush = true;
+
+                    // сообщение от сервера
+                    string message = reader.ReadLine();
+                    Console.WriteLine($"Клиент получил: {message}");
+
+                    // Отправляем ответ
+                    writer.WriteLine("Привет от клиента!");
+                    Console.WriteLine("Клиент отправил: Привет от клиента!");
+                }
+
+                Console.WriteLine("Нажмите Enter для выхода...");
+                Console.ReadLine();
+            }
+        }
+    }
+}
+
+
+//сервер
+using System;
+using System.IO;
+using System.IO.Pipes;
+
+namespace NamedPipeServer
+{
+    class Program
+    {
+        static void Main()
+        {
+            // канал с именем "MyPipe"
+            using (var server = new NamedPipeServerStream("MyPipe"))
+            {
+                Console.WriteLine("Сервер запущен. Ожидание подключения клиента...");
+
+                // Ожидаем, пока клиент подключится к каналу
+                server.WaitForConnection();
+                Console.WriteLine("Клиент подключён.");
+
+                // объекты для удобной записи и чтения строк
+                using (var writer = new StreamWriter(server))
+                using (var reader = new StreamReader(server))
+                {
+                    writer.AutoFlush = true; // чтобы данные отправлялись сразу
+
+                    // Отправляем сообщение клиенту
+                    writer.WriteLine("Привет от сервера!");
+                    Console.WriteLine("Сервер отправил: Привет от сервера!");
+
+                    // Читаем ответ от клиента
+                    string response = reader.ReadLine();
+                    Console.WriteLine($"Сервер получил: {response}");
+                }
+
+                Console.WriteLine("Нажмите Enter для выхода...");
+                Console.ReadLine();
+            }
+        }
+    }
+}
